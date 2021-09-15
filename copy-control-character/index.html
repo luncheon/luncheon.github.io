@@ -1,0 +1,80 @@
+<head>
+  <style>
+    *,
+    ::before,
+    ::after {
+      box-sizing: border-box;
+    }
+    body {
+      width: max-content;
+      margin: auto;
+      padding-top: 2em;
+    }
+    #buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 8em);
+      gap: 0.5em;
+    }
+    [data-hex] {
+      cursor: pointer;
+      font: inherit;
+      font-family: "Courier New", Courier, monospace;
+      text-align: left;
+      height: 2em;
+      padding-left: 1em;
+    }
+    [data-hex].active::after {
+      content: "✅";
+    }
+  </style>
+</head>
+<body>
+  <h1>Copy Control Character</h1>
+  <section id="buttons"></section>
+  <script>
+    const CONTROL_CHARACTERS = [
+      [0, "NUL"],
+      [1, "SOH"],
+      [2, "STX"],
+      [3, "ETX"],
+      [4, "EOT"],
+      [5, "ENQ"],
+      [6, "ACK"],
+      [7, "BEL"],
+      [8, "BS"],
+      [9, "HT"],
+      [10, "LF"],
+      [11, "VT"],
+      [12, "FF"],
+      [13, "CR"],
+      [14, "SO"],
+      [15, "SI"],
+      [16, "DLE"],
+      [17, "DC1"],
+      [18, "DC2"],
+      [19, "DC3"],
+      [20, "DC4"],
+      [21, "NAK"],
+      [22, "SYN"],
+      [23, "ETB"],
+      [24, "CAN"],
+      [25, "EM"],
+      [26, "SUB"],
+      [27, "ESC"],
+      [28, "FS"],
+      [29, "GS"],
+      [30, "RS"],
+      [31, "US"],
+      [127, "DEL"],
+    ];
+    const buttons = document.getElementById("buttons");
+    for (const [code, name] of CONTROL_CHARACTERS) {
+      const button = buttons.appendChild(document.createElement("button"));
+      const hex = code.toString(16).padStart(2, "0");
+      button.dataset.hex = hex;
+      button.textContent = `0x${hex}: ${name}`;
+      button.onclick = () =>
+        navigator.clipboard.writeText(String.fromCharCode(code));
+    }
+  </script>
+</body>
